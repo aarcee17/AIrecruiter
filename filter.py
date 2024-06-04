@@ -18,6 +18,7 @@ def extract_degree_type(scholar_url, retries=5):
             designation_element = soup.find('div', class_='gsc_prf_il')
             if designation_element:
                 degree_type = designation_element.text.strip()
+                print(degree_type)
                 if "professor" in degree_type.lower():
                     degree_type = "flagged"
                 return degree_type
@@ -36,8 +37,8 @@ def get_degree_type(author_name, prof_name, university):
     query = f"{author_name} Google Scholar {university}"
     for url in search(query, num_results=5):
         if 'scholar.google.com/citations?' in url:
-            print("url is "+ url)
-            return extract_degree_type(url)
+            #print("url is "+ url)
+            return extract_degree_type(url), url
     return "res 1"
 
 
@@ -46,9 +47,9 @@ def filter_authors(authors_list):
     filtered_authors = []
     for author in authors_list:
         name, prof_name, university = author
-        degree_type = get_degree_type(name, prof_name, university)
+        degree_type, url = get_degree_type(name, prof_name, university)
         if (degree_type != 'flagged'):
-            filtered_authors.append((name, prof_name, university, degree_type, "ML"))
+            filtered_authors.append((name,url, prof_name, university, degree_type, "ML"))
         time.sleep(1) 
     return filtered_authors
 
@@ -57,7 +58,7 @@ import csv
 def write_authors_to_csv(authors, filename):
     with open(filename, 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile, delimiter=',')
-        csv_writer.writerow(['name', 'professor', 'university', 'degree_type', 'field_of_study'])
+        csv_writer.writerow(['name','url', 'professor', 'university', 'degree_type', 'field_of_study'])
         for author in authors:
             csv_writer.writerow(author)
 
@@ -65,7 +66,8 @@ def write_authors_to_csv(authors, filename):
 def main():
     prof_name = input("Enter the professor's name: ")
     university = input("Enter the university: ")
-
+    inprr = input("How many student: ")
+    inpr = 3*inprr
     prof_url = get_professor_url(prof_name, university)
     if not prof_url:
         print("Google Scholar URL not found.")
@@ -82,8 +84,12 @@ def main():
         time.sleep(1)  # Respect rate limits
     for aut in all_authors:
         print(aut)
-    all_authors = all_authors[15:26]
+    all_authors = all_authors[:inpr]
     filtered_authors = filter_authors(all_authors)
+    #score_filtered_authors = score_authors(filtered_authors)
+    #print("Filtered authors with scores:")
+    #filtered_authors = filtered_authors[:inprr]
+    
     
     print("Filtered authors with degree types:")
     for author in filtered_authors:
@@ -95,3 +101,4 @@ def main():
 #     #print(extract_degree_type('https://scholar.google.com/citations?user=yxUduqMAAAAJ&hl=en'))
 if __name__ == "__main__":
      main()    
+     

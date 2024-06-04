@@ -1,9 +1,4 @@
-name,professor,university,degree_type,field_of_study
-Awni Y Hannun,Andrew Ng,Stanford University,"Machine Learning Research, Apple",ML
-Andrew Y Ng,Andrew Ng,Stanford University,Stanford University,ML
-Richard Socher,Andrew Ng,Stanford University,you.com,ML
-Jean Wu,Andrew Ng,Stanford University,UC Berkeley,ML
-Jason Chuang,Andrew Ng,Stanford University,.,ML
-Andrew Y Ng,Andrew Ng,Stanford University,Stanford University,ML
-Christopher Potts,Andrew Ng,Stanford University,University of Southampton,ML
-Tao Wang,Andrew Ng,Stanford University,"PhD at Computer Science, Stanford University",ML
+name,url,professor,university,degree_type,field_of_study
+Sam Clark,https://scholar.google.com/citations?user=R1bC-5gAAAAJ&hl=en,Mausam,IIT Delhi,School of Environmental and Rural Science,ML
+Janara Christensen,https://scholar.google.com/citations?user=5z2horgAAAAJ&hl=en,Mausam,IIT Delhi,"Student, University of Washington",ML
+Subbarao Kambhampati,https://scholar.google.com/citations?user=yl3L07sAAAAJ&hl=en,Mausam,IIT Delhi,Arizona State University,ML

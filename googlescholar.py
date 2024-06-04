@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 from sentence_transformers import SentenceTransformer, util
 import time
-
+import math
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
 def fetch_scholar_data(scholar_url):
@@ -25,6 +25,25 @@ def fetch_scholar_data(scholar_url):
     soup = BeautifulSoup(response.content, 'html.parser')
     
     metrics = {}
+    # itemm = soup.select('#gsc_prf_in')
+    # print(itemm)
+    # text = itemm.text.strip()
+    # print(text)
+    # metrics['name'] = text
+    #metrics = {}
+
+
+    item = soup.select_one('#gsc_prf_in')
+
+    if item:
+
+        metrics['name'] = item.text.strip()
+    else:
+
+        print("Name element not found")
+
+    print(metrics.get('name'))  
+
     for item in soup.select('#gsc_rsb_st td'):
         try:
             text = item.text.strip()
@@ -76,7 +95,7 @@ def fetch_scholar_data(scholar_url):
     else:
         relevance_score = 0
 
-    metrics['relevance_score'] = 200*relevance_score
+    metrics['relevance_score'] = 200*relevance_score + metrics['h_index']+math.sqrt(metrics['citations'])
 
     return metrics
 

@@ -1,6 +1,6 @@
 from transformers import pipeline
 from scangit import *
-
+from scangs import *
 classifier = pipeline("text-classification", model="distilbert-base-uncased-finetuned-sst-2-english")
 nlp = pipeline("ner", model="dslim/bert-base-NER")
 
@@ -107,14 +107,19 @@ for category in categories:
         print(f"Fetching top {k} GitHub profiles in {location or 'global'}...")
         top_k_profiles = fetch_topkgithub(k, location)
         for profile in top_k_profiles:
-            print(f"GitHub ID: {profile['github_id']}, Link: https://github.com/{profile['github_id']}  Total Score: {profile['total_score']}")
+            print(f"GitHub ID: {profile['github_id']}\n Link: https://github.com/{profile['github_id']}\n  Total Score: {profile['total_score']}\n")
             # for repo in profile['detailed_scores']:
             #     print(f"  Repo: {repo['name']}, Score: {repo['score']}, Stars: {repo['stars']}, Relevance Score: {repo['relevance_score']}")
 
         # fetch_github_profiles(k, location)
     elif category == "scholar":
         print(f"Fetching top {k} Google Scholar profiles in {location or 'global'}...")
-        # fetch_scholar_profiles(k, location)
+        top_k_profiles = topk_googlescholar(k, location)
+        write_profile_to_csv(top_k_profiles)
+        for profile in top_k_profiles:
+            print(f"Name: {profile['name']}\n relevance: {profile['relevance_score']}\n citations: {profile['citations']}\n H-index: {profile['h_index']}\n Degree/Institute of Work: {profile['degree_type']}\n Profile Link: {profile['scholar_url']}\n")
+
     elif category == "student":
-        print(f"Fetching top {k} student profiles in {location or 'global'}...")
-        # fetch_student_profiles(k, location)
+        college = input("What college do you want to recruit from?: ")
+        print(f"Fetching top {k} student profiles from {college} ...")
+        #fetch_student_profiles(k, location)
