@@ -1,6 +1,7 @@
 from transformers import pipeline
 from scangit import *
 from scangs import *
+from filter import *
 classifier = pipeline("text-classification", model="distilbert-base-uncased-finetuned-sst-2-english")
 nlp = pipeline("ner", model="dslim/bert-base-NER")
 
@@ -122,4 +123,5 @@ for category in categories:
     elif category == "student":
         college = input("What college do you want to recruit from?: ")
         print(f"Fetching top {k} student profiles from {college} ...")
+        remain(college, k)
         #fetch_student_profiles(k, location)
