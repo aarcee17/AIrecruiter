@@ -8,6 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 import time
 from prof import *
+import os
 def extract_degree_type(scholar_url, retries=5):
     http = urllib3.PoolManager()
     attempt = 0
@@ -55,10 +56,18 @@ def filter_authors(authors_list):
 
 import csv
 
+# def write_authors_to_csv(authors, filename):
+#     with open(filename, 'w', newline='') as csvfile:
+#         csv_writer = csv.writer(csvfile, delimiter=',')
+#         csv_writer.writerow(['name','url', 'professor', 'university', 'degree_type', 'field_of_study'])
+#         for author in authors:
+#             csv_writer.writerow(author)
+            
 def write_authors_to_csv(authors, filename):
-    with open(filename, 'w', newline='') as csvfile:
+    with open(filename, 'a', newline='') as csvfile:
         csv_writer = csv.writer(csvfile, delimiter=',')
-        csv_writer.writerow(['name','url', 'professor', 'university', 'degree_type', 'field_of_study'])
+        if os.path.getsize(filename) == 0:
+            csv_writer.writerow(['name', 'url', 'professor', 'university', 'degree_type', 'field_of_study'])
         for author in authors:
             csv_writer.writerow(author)
 
