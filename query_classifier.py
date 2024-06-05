@@ -5,6 +5,7 @@ from filter import *
 classifier = pipeline("text-classification", model="distilbert-base-uncased-finetuned-sst-2-english")
 nlp = pipeline("ner", model="dslim/bert-base-NER")
 from prof import *
+import sys
 def classify_query(query):
     entities = nlp(query)
     #print(entities)
@@ -92,6 +93,20 @@ def process_query(query):
     location = classification["location"]
     
     return categories, location
+
+def write_git_to_csv(topk_profiles):
+    with open('git_profiles.csv', 'w', newline='') as csvfile:
+        fieldnames = ['GitHub ID', 'Link', 'Total Score']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        writer.writeheader()
+        for profile in topk_profiles:
+            writer.writerow({
+                'GitHub ID': profile['github_id'],
+                'Link': f"https://github.com/{profile['github_id']}",
+                'Total Score': profile['total_score']
+            })
+
 def extract_parameters(query):
     k = 7
 
@@ -103,17 +118,19 @@ def extract_parameters(query):
             k = int(words[i+1])
     return k         
 # Example usage
-query = input("Describe candidate you are looking for: ")
+#print("\n\nWelcome to AIrecruiter\n\n")
+query = ' '.join(sys.argv[1:])
 # query = "I want to find top 10 programmer who have worked on Llama-3 in Boston"
 categories, location = process_query(query)
 k = extract_parameters(query)
-print(f"Categories: {categories}, k: {k}, location: {location}")
+#print(f"Categories: {categories}, k: {k}, location: {location}")
 
 
 for category in categories:
     if category == "github":
-        print(f"Fetching top {k} GitHub profiles in {location or 'global'}...")
+        #print(f"Fetching top {k} GitHub profiles in {location or 'global'}...")
         top_k_profiles = fetch_topkgithub(k, location)
+        write_git_to_csv(top_k_profiles)
         for profile in top_k_profiles:
             print(f"GitHub ID: {profile['github_id']}\n Link: https://github.com/{profile['github_id']}\n  Total Score: {profile['total_score']}\n")
             # for repo in profile['detailed_scores']:
@@ -121,7 +138,7 @@ for category in categories:
 
         # fetch_github_profiles(k, location)
     elif category == "scholar":
-        print(f"Fetching top {k} Google Scholar profiles in {location or 'global'}...")
+        #print(f"Fetching top {k} Google Scholar profiles in {location or 'global'}...")
         top_k_profiles = topk_googlescholar(k, location)
         write_profile_to_csv(top_k_profiles)
         for profile in top_k_profiles:
@@ -132,12 +149,13 @@ for category in categories:
         colleges = find_colleges(location)
         for college in colleges:
            # print(f"College: {college[0]['name']}")
-            print(f"Fetching top {k} student profiles from {college} ...")
+            #print(f"Fetching top {k} student profiles from {college} ...")
             remain(college, k)
             time.sleep(2)
-        
-#sample queries:"Find top 5 researchers who have published papers on AI in the last 5 years."
-#"Find top 6 students who have worked on TensorFlow and have a strong GitHub presence."
-#"Recruit top 2 students from University of California, Berkeley who have worked on computer vision projects."
-#"Find top 8 programmers who have worked on GPT-3 and have published papers on NLP."
-#"Recruit top 3 students in California who have worked on machine learning projects."
+#Please pick one of Boston, Caliofornia, Seattle, Berkeley. 
+#Sample queries:
+#"Find top 6 students who have worked on TensorFlow and have a strong GitHub presence in Boston."
+#"Recruit top 5 students in California who have worked on computer vision projects."
+#"Find top 8 programmers in Seattle who have worked on GPT-3 and have published papers on NLP."
+#"Recruit top 3 scholars in Boston ."
+#top 8 people who have worked in AI labs in Boston.

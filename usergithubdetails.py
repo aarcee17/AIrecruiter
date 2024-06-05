@@ -47,7 +47,9 @@ class UserGitHubDetails:
             soup = BeautifulSoup(response.text, 'html.parser')
             repos = soup.find_all('li', class_='col-12 d-flex flex-justify-between width-full py-4 border-bottom color-border-muted public fork')
             repos+= soup.find_all('li', class_='col-12 d-flex flex-justify-between width-full py-4 border-bottom color-border-muted public source')
-
+            #repos += soup.find_all('li', class_='col-12 d-flex flex-justify-between width-full py-4 border-bottom color-border-muted')
+            if len(repos) >30:
+                repos = repos[:30]
             if not repos:
                 break
 

@@ -28,7 +28,7 @@ def fetch_topkgithub(k, location=None):
         # user_logins = ([user['hl_login'] for user in data['payload']['results'][:k]]) 
         database+=user_logins
         #print(user_logins)
-    print(database)
+    #print(database)
     database = set(database)    
     github_profiles = []
     for github_id in database:

@@ -42,7 +42,7 @@ def fetch_scholar_data(scholar_url):
 
         print("Name element not found")
 
-    print(metrics.get('name'))  
+    #print(metrics.get('name'))  
 
     for item in soup.select('#gsc_rsb_st td'):
         try:

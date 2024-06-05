@@ -26,7 +26,7 @@ def top_labs(location):
 def search_google_scholar(query):
     
     search_url = f"https://scholar.google.com/citations?hl=en&view_op=search_authors&mauthors={query}&btnG="
-    print(search_url)
+    #print(search_url)
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
