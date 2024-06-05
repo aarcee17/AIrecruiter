@@ -6,7 +6,7 @@ import time
 from googlescholar import *
 from filter import extract_degree_type
 import csv
-
+from linkedin import fetch_linkedin_url
 def top_labs(location):
     stack = []
     #we now need to pass or make  dtabase to retrievev a list of top labs. 
@@ -59,7 +59,9 @@ def write_profile_to_csv(profiles, filename="scholars.csv"):
       writer.writeheader()
 
     for profile in profiles:
-      writer.writerow(profile)
+        #profile.append('linkedin' :"fetch_linkedin_url(profile['name'],profile['location'])")
+        writer.writerow(profile)
+      
 
     
 def topk_googlescholar(k, location=None):
@@ -76,14 +78,15 @@ def topk_googlescholar(k, location=None):
         for profile in profiles:
             scholar_data = fetch_scholar_data(profile)
             degree_type = extract_degree_type(profile)
-            if degree_type != "Professor":
+            if degree_type != "flagged":
                 filtered_profiles.append({
                     'scholar_url': profile,
                     'name': scholar_data.get('name', 'N/A'),
                     'citations': scholar_data.get('citations', 'N/A'),
                     'h_index': scholar_data.get('h_index', 'N/A'),
                     'relevance_score': scholar_data.get('relevance_score',0),
-                    'degree_type': degree_type
+                    'degree_type': degree_type,
+                    'Linkedin': fetch_linkedin_url(scholar_data.get('name', 'N/A'),scholar_data.get('location', 'N/A'))
                 })
             time.sleep(1)  
 
@@ -95,4 +98,4 @@ if __name__ == "__main__":
     top_k_profiles = topk_googlescholar(8, "Seattle")
     write_profile_to_csv(top_k_profiles)
     for profile in top_k_profiles:
-        print(f"Name: {profile['name']}\n relevance: {profile['relevance_score']}\n citations: {profile['citations']}\n H-index: {profile['h_index']}\n Degree/Institute of Work: {profile['degree_type']}\n Profile Link: {profile['scholar_url']}\n")
+        print(f"Name: {profile['name']}\n relevance: {profile['relevance_score']}\n citations: {profile['citations']}\n H-index: {profile['h_index']}\n Degree/Institute of Work: {profile['degree_type']}\n Profile Link: {profile['scholar_url']}\n Linkedin: {profile['Linkedin']}\n")

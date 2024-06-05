@@ -13,7 +13,7 @@ def fetch_linkedin_url(name, workplace, retries=5):
     if search_url:
         return search_url
     else:
-        return "LinkedIn URL not found"
+        return "not found"
 
 if __name__ == "__main__":
     name = input("Enter the person's name: ")
