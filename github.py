@@ -62,18 +62,18 @@ def score_github_user(username):
     total_score = aggregate_scores(scores)
     return total_score, user_details, scores
 
-# def main():
-#     username = input("Enter the GitHub username: ")
-#     try:
-#         total_score, user_profile, detailed_scores = score_github_user(username)
-#         print(f"Total GitHub Score for {username}: {total_score}")
-#         print("User Profile:")
-#         print(user_profile)
-#         print("Detailed Scores:")
-#         for score in detailed_scores:
-#             print(f"Repository: {score['name']}, Score: {score['score']}, Stars: {score['stars']}, Description: {score['description']}, Relevance Score: {score['relevance_score']}")
-#     except Exception as e:
-#         print(f"Error: {e}")
+def main():
+    username = input("Enter the GitHub username: ")
+    try:
+        total_score, user_profile, detailed_scores = score_github_user(username)
+        print(f"Total GitHub Score for {username}: {total_score}")
+        print("User Profile:")
+        print(user_profile)
+        print("Detailed Scores:")
+        for score in detailed_scores:
+            print(f"Repository: {score['name']}, Score: {score['score']}, Stars: {score['stars']}, Description: {score['description']}, Relevance Score: {score['relevance_score']}")
+    except Exception as e:
+        print(f"Error: {e}")
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()

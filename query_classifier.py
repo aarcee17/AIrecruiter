@@ -4,7 +4,7 @@ from scangs import *
 from filter import *
 classifier = pipeline("text-classification", model="distilbert-base-uncased-finetuned-sst-2-english")
 nlp = pipeline("ner", model="dslim/bert-base-NER")
-
+from prof import *
 def classify_query(query):
     entities = nlp(query)
     #print(entities)
@@ -38,7 +38,7 @@ def classify_query(query):
     "research topic", "research gate", "citations per year", "citation metrics"
     ]
     student_keywords = [
-    "student", "lab", "labs", "university", "universities", "AI lab", 
+    "student", "lab", "labs", "university", "universities", "AI labs", 
     "researcher", "undergraduate", "bachelor's", "master's", "phd student", 
     "msc student", "bsc student", "graduate student", "postgraduate student", 
     "research intern", "internship", "academic program", "coursework", 
@@ -48,9 +48,8 @@ def classify_query(query):
     "dissertation project", "research grant", "scholarship", "fellowship",
     "academic conference", "student conference", "graduate school", "graduate studies",
     "academic career", "academic achievement", "academic excellence", 
-    "academic transcript", "dean's list", "valedictorian", "summa cum laude",
-    "magna cum laude", "cum laude", "student body", "student council", 
-    "student government", "student life", "campus life", "study group"
+    "academic transcript", "dean's list", "valedictorian",  "student body", 
+    "student council", "student government", "student life", "campus life", "study group"
     ]
 
 
@@ -72,6 +71,14 @@ def classify_query(query):
 
     return classification
 
+def find_colleges(location):
+    colleges = []
+    for university, details in professors.items():
+        for detail in details:
+            if detail.get('location',None) == location:
+                colleges.append(university)
+    return colleges
+
 def process_query(query):
     classification = classify_query(query)
 
@@ -86,7 +93,7 @@ def process_query(query):
     
     return categories, location
 def extract_parameters(query):
-    k = 15
+    k = 7
 
     words = query.split()
     for i, word in enumerate(words):
@@ -121,7 +128,16 @@ for category in categories:
             print(f"Name: {profile['name']}\n relevance: {profile['relevance_score']}\n citations: {profile['citations']}\n H-index: {profile['h_index']}\n Degree/Institute of Work: {profile['degree_type']}\n Profile Link: {profile['scholar_url']}\n")
 
     elif category == "student":
-        college = input("What college do you want to recruit from?: ")
-        print(f"Fetching top {k} student profiles from {college} ...")
-        remain(college, k)
-        #fetch_student_profiles(k, location)
+        #college = input("What college do you want to recruit from?: ")
+        colleges = find_colleges(location)
+        for college in colleges:
+           # print(f"College: {college[0]['name']}")
+            print(f"Fetching top {k} student profiles from {college} ...")
+            remain(college, k)
+            time.sleep(2)
+        
+#sample queries:"Find top 5 researchers who have published papers on AI in the last 5 years."
+#"Find top 6 students who have worked on TensorFlow and have a strong GitHub presence."
+#"Recruit top 2 students from University of California, Berkeley who have worked on computer vision projects."
+#"Find top 8 programmers who have worked on GPT-3 and have published papers on NLP."
+#"Recruit top 3 students in California who have worked on machine learning projects."

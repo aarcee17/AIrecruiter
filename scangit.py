@@ -18,7 +18,14 @@ def fetch_topkgithub(k, location=None):
 
         data = response.json()
         #print(data)
-        user_logins = [user['hl_login'] for user in data['payload']['results'][:k]]
+        user_logins = []
+        for user in data['payload']['results'][:k]:
+            if(user['login'][0]!= '<'):
+                user_logins.append(user['login'])
+            else:
+                user_logins.append(user['login'][3:-4])    
+            #user_logins = ([user['login'] for user in data['payload']['users'][:k]])
+        # user_logins = ([user['hl_login'] for user in data['payload']['results'][:k]]) 
         database+=user_logins
         #print(user_logins)
     print(database)

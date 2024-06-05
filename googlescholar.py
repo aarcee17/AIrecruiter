@@ -95,7 +95,7 @@ def fetch_scholar_data(scholar_url):
     else:
         relevance_score = 0
 
-    metrics['relevance_score'] = 200*relevance_score + metrics['h_index']+math.sqrt(metrics['citations'])
+    metrics['relevance_score'] = 200*relevance_score + metrics.get('h_index',1)+math.sqrt(metrics.get('citations',1000))
 
     return metrics
 

@@ -35,7 +35,12 @@ def get_authors_from_citation(citation_url):
     author_element = soup.find('div', class_='gsc_oci_value')
     if author_element:
         authors = author_element.text
-        return authors.split(", ")
+        a = authors.split(", ")
+        if len(a) > 5:
+            time.sleep(1)
+            return a[:5]
+        else:
+            return a
     return []
 
 def get_citation_links(prof_url):
@@ -51,7 +56,7 @@ def get_citation_links(prof_url):
             href = link['href']
             full_url = base_url + href
             citation_links.append(full_url)
-            if len(citation_links) == 15:  # Limit to the first 15 links
+            if len(citation_links) == 7:  # Limit to the first 15 links
                 break
 
     return citation_links
@@ -67,8 +72,10 @@ def main():
         all_authors = []
 
         for link in citation_links:
-            authors = get_authors_from_citation(link)
-            all_authors.extend(authors)
+            while(len(all_authors)<30):
+                authors = get_authors_from_citation(link)
+                all_authors.extend(authors)
+                time.sleep(1)
             time.sleep(1)  
 
         unique_authors = set(all_authors)

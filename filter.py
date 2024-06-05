@@ -139,4 +139,4 @@ def remain(university,k):
 #     #print(extract_degree_type('https://scholar.google.com/citations?user=yxUduqMAAAAJ&hl=en'))
 if __name__ == "__main__":
      main()    
-     
+     #remain('Stanford University',4)
