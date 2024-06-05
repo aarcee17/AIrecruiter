@@ -17,6 +17,7 @@ ai_ml_prompts = [
     "machine learning",
     "data science",
     "deep learning"
+    # 20 prompts relevatn to NLP utaomatically 
     
 ]
 
@@ -33,6 +34,7 @@ def score_repositories(repo_data):
         stars_score = repo['stars']
         project_relevance_score = evaluate_project_relevance(repo['description'] or '') * 20
         total_score = stars_score + project_relevance_score
+        # sum (log ( stars+2)(fork+2)* sqrt(repo_desc_score)*log(commits+1))
         scores.append({
             'name': repo['name'],
             'score': total_score,
