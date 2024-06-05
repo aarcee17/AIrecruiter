@@ -125,6 +125,7 @@ To set up the project environment, ensure you have Python installed and then ins
 
 
    **Example usage query:**
+   **Please always input common locations like Boston, Seattle, California, and Berkeley for now. This is currently zeroth version and database does not support for vast inputs. **
    "Find top 6 students who have worked on TensorFlow and have a strong GitHub presence in Boston."
 "Recruit top 5 students in California who have worked on computer vision projects."
 "Find top 8 programmers in Seattle who have worked on GPT-3 and have published papers on NLP."
