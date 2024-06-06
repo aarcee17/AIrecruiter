@@ -1,10 +1,15 @@
-from googlesearch import search
 import requests
 from bs4 import BeautifulSoup
-from sentence_transformers import SentenceTransformer, util
 import time
 import math
-model = SentenceTransformer('all-MiniLM-L6-v2')
+from rank_bm25 import BM25Okapi
+import nltk
+from googlesearch import search
+# Ensure you have the necessary NLTK data
+nltk.download('punkt')
+
+def tokenize(text):
+    return nltk.word_tokenize(text.lower())
 
 def fetch_scholar_data(scholar_url):
     headers = {
@@ -16,33 +21,20 @@ def fetch_scholar_data(scholar_url):
         if response.status_code == 200:
             break
         elif response.status_code == 429:
-            time.sleep(10)  
+            time.sleep(10)
         else:
             raise Exception(f"Failed to fetch the webpage. Status code: {response.status_code}")
     else:
         raise Exception("Max retries exceeded. Could not fetch the webpage.")
     
     soup = BeautifulSoup(response.content, 'html.parser')
-    
     metrics = {}
-    # itemm = soup.select('#gsc_prf_in')
-    # print(itemm)
-    # text = itemm.text.strip()
-    # print(text)
-    # metrics['name'] = text
-    #metrics = {}
-
 
     item = soup.select_one('#gsc_prf_in')
-
     if item:
-
         metrics['name'] = item.text.strip()
     else:
-
         print("Name element not found")
-
-    #print(metrics.get('name'))  
 
     for item in soup.select('#gsc_rsb_st td'):
         try:
@@ -55,7 +47,7 @@ def fetch_scholar_data(scholar_url):
                 metrics['i10_index'] = int(item.find_next_sibling('td').text.strip())
         except:
             continue
-    
+
     description = ''
     for item in soup.select('#gsc_prf_bio'):
         description = item.text.strip()
@@ -87,29 +79,22 @@ def fetch_scholar_data(scholar_url):
         "support vector machines"
     ]
 
-    qembed = model.encode(ai_ml_prompts)
+    tokenized_prompts = [tokenize(prompt) for prompt in ai_ml_prompts]
+    bm25 = BM25Okapi(tokenized_prompts)
+    
     if description:
-        embeddings = model.encode([description])
-        similarities = [util.cos_sim(qembed[i], embeddings)[0].item() for i in range(len(ai_ml_prompts))]
-        relevance_score = sum(similarities) / len(similarities)
+        tokenized_description = tokenize(description)
+        relevance_scores = bm25.get_scores(tokenized_description)
+        relevance_score = sum(relevance_scores) / len(relevance_scores)
     else:
         relevance_score = 0
 
-    metrics['relevance_score'] = 200*relevance_score + metrics.get('h_index',1)+math.sqrt(metrics.get('citations',1000))
+    metrics['relevance_score'] = 200 * relevance_score + metrics.get('h_index', 1) + math.sqrt(metrics.get('citations', 1000))
 
     return metrics
 
 def get_google_scholar_url(prof_name, college):    
-    query = f" Professor {prof_name} {college} Google Scholar" 
-    #query = f" 
-    # [student_name} Student of {prof_name} {college} Google Scholar"
-    for url in search(query, num_results=10):
-        if 'scholar.google.com/citations' in url:
-            return url
-    return None
-
-def get_student_url(student_name, prof_name, college):    
-    query = f" {student_name}, {college} Google Scholar"
+    query = f"Professor {prof_name} {college} Google Scholar"
     for url in search(query, num_results=10):
         if 'scholar.google.com/citations' in url:
             return url
@@ -117,32 +102,10 @@ def get_student_url(student_name, prof_name, college):
 
 if __name__ == "__main__":
     prof_name = "Yoshua Bengio"
-    student_name = "Alexander Tong"
-    college = "Universaite De Montreale"
-    scholar_url = get_student_url(student_name,prof_name, college)
+    college = "Université de Montréal"
+    scholar_url = get_google_scholar_url(prof_name, college)
     if scholar_url:
         scholar_data = fetch_scholar_data(scholar_url)
-        print(scholar_url)
         print(scholar_data)
     else:
         print("Google Scholar profile not found.")
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    # student_url = get_student_url(student_name,prof_name, college)
-    # if student_url:
-    #     sar_data = fetch_scholar_data(student_url)
-    #     print(student_url)
-    #     print(sar_data)
-    # else:
-    #     print("Google Scholar profile not found.")
-        
-    #student_name = "Alex Karpenko"

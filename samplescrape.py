@@ -8,7 +8,7 @@ from prof import *
 from candidate import *
 from googlescholar import *
 from github import *
-from transformers import pipeline
+#from transformers import pipeline
 
 
 # nlp = pipeline("ner", model="dbmdz/bert-large-cased-finetuned-conll03-english")
