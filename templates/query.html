@@ -47,6 +47,11 @@
         button:hover {
             background: #0056b3;
         }
+        .instructions {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -55,6 +60,17 @@
         <form action="/process_query" method="post">
             <label for="query">Enter your query:</label>
             <input type="text" id="query" name="query" required>
+            <div class="instructions">
+                <p>Please pick one of the following locations: Boston, California, Seattle, Berkeley, Toronto.</p>
+                <p>Sample queries:</p>
+                <ul>
+                    <li>"Find top 6 students who have good github presence in Boston."</li>
+                    <li>"Recruit top 5 students in California who have worked on computer vision projects."</li>
+                    <li>"Find top 8 programmers in Seattle and have published papers on NLP."</li>
+                    <li>"Recruit top 3 scholars in Berkeley."</li>
+                    <li>"Top 8 people who have worked in AI labs in Toronto."</li>
+                </ul>
+            </div>
             <button type="submit">Submit</button>
         </form>
     </div>
