@@ -17,7 +17,7 @@ ai_ml_prompts = [
     "machine learning",
     "data science",
     "deep learning"
-    # 20 prompts relevatn to NLP utaomatically 
+    # 20 prompts relevatn to NLP autaomatically 
     
 ]
 

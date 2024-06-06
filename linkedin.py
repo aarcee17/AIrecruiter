@@ -6,7 +6,7 @@ def fetch_linkedin_url(name, workplace, retries=5):
     query = f"{name} {workplace} LinkedIn"
     search_url = None
     for url in search(query, num_results=10, lang="en"):
-        if "linkedin.com/in/" in url or "linkedin.com/pub/" in url:
+        if "linkedin.com/in/" in url:
             search_url = url
             break
 

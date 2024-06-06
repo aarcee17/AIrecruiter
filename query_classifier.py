@@ -13,7 +13,7 @@ def classify_query(query):
     # k = 15  
 
     github_keywords = [
-        "github", "repository", "programmer", "developer", 
+        "github", "repository", "programmer", "developer", "engineer", "coder","engineers", "programmers", "developers", 
         "llama", "llama-2", "llama-3", "gpt", "gpt-3", "gpt-4", "openai",
         "tensorflow", "pytorch", "keras", "jupyter", "notebook", 
         "machine learning", "artificial intelligence", "mlops", "deep learning",

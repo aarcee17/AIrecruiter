@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from github import score_github_user
-
+from linkedin import fetch_linkedin_url
 def fetch_topkgithub(k, location=None):
     database = []
     queries = ["ML","AI","PhD ML","PhD AI"]
@@ -36,7 +36,8 @@ def fetch_topkgithub(k, location=None):
         github_profiles.append({
             'github_id': github_id,
             'total_score': total_score,
-            'detailed_scores': detailed_scores
+            'detailed_scores': detailed_scores,
+            #'linkedin': fetch_linkedin_url(github_id, )
         })
 
     sorted_profiles = sorted(github_profiles, key=lambda x: x['total_score'], reverse=True)
