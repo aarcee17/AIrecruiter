@@ -7,3 +7,4 @@ urllib3
 numpy
 rank-bm25
 nltk
+gunicorn
