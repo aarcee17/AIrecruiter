@@ -1,44 +1,11 @@
-# Flask for web application
-Flask==3.0.3
-
-# BeautifulSoup for web scraping
-beautifulsoup4==4.12.3
-
-# Requests for making HTTP requests
-requests==2.32.2
-
-# Spacy for NLP
 spacy==3.7.4
-en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
-
-# Sentence Transformers for embedding generation
-sentence-transformers==2.7.0
-
-# Transformers for handling transformer models
 transformers==4.41.1
-
-# Scikit-learn for machine learning tasks
-scikit-learn==1.5.0
-
-# Torch for deep learning
-torch==2.2.2
-
-# Googlesearch-python for Google search integration
+sentence-transformers==2.7.0
+flask==3.0.3
+requests==2.32.2
+beautifulsoup4==4.12.3
 googlesearch-python==1.2.4
-
-# Selenium for browser automation (if needed for scraping)
-selenium==4.21.0
-
-# Joblib for efficient computation
-joblib==1.4.2
-
-# Numpy and Scipy for numerical computations
-numpy==1.26.4
-scipy==1.13.1
-
-# Additional useful packages
-pandas==2.1.2
-tqdm==4.66.4
-urllib3==2.2.1
-soupsieve==2.5
 fake-useragent==1.5.1
+urllib3==2.2.1
+numpy==1.26.4
+
