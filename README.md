@@ -126,7 +126,7 @@ To set up the project environment, ensure you have Python installed and then ins
    To classify input queries and fetch top profiles, run the query processing script: app.py **This is the most relevant one and should be the only one of the user's concern. It calls other scripts and returns the suitable databse of candidates.**
 
    **Example usage query:**
-   #Please pick one of Boston, Caliofornia, Seattle, Berkeley.
+   #Please pick one of Boston, California, Seattle, Berkeley.
    #Sample queries:
    #"Find top 6 students who have worked on TensorFlow and have a strong GitHub presence in Boston."
    #"Recruit top 5 students in California who have worked on computer vision projects."
