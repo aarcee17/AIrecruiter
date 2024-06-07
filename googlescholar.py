@@ -5,7 +5,6 @@ import math
 from rank_bm25 import BM25Okapi
 from googlesearch import search
 from textblob import TextBlob
-# nltk.download('punkt', quiet=True)
 
 def tokenize(text):
     return [word.lower() for word in TextBlob(text).words]
