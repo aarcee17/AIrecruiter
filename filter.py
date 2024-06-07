@@ -138,7 +138,7 @@ def remain(university,k):
     print("Filtered authors with degree types:")
     for author in filtered_authors:
         print(author)
-    write_authors_to_csv(filtered_authors, 'filtered_authors.csv')
+    #write_authors_to_csv(filtered_authors, 'filtered_authors.csv')
 
 # def main():
 #     print(get_degree_type('Michael I Jordan', 'Andrew NG', 'Stanford University'))

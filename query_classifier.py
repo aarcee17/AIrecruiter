@@ -115,7 +115,7 @@ for category in categories:
             print(f"GitHub ID: {profile['github_id']}\n Link: https://github.com/{profile['github_id']}\n  Total Score: {profile['total_score']}\n")
     elif category == "scholar":
         top_k_profiles = topk_googlescholar(k, location)
-        write_profile_to_csv(top_k_profiles)
+        #write_profile_to_csv(top_k_profiles)
         for profile in top_k_profiles:
             print(f"Name: {profile['name']}\n relevance: {profile['relevance_score']}\n citations: {profile['citations']}\n H-index: {profile['h_index']}\n Degree/Institute of Work: {profile['degree_type']}\n Profile Link: {profile['scholar_url']}\n Linkedin Link: {profile['Linkedin']}\n")
     elif category == "student":
