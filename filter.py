@@ -7,7 +7,7 @@ import urllib3
 from prof import *
 import os
 def extract_degree_type(scholar_url, retries=5):
-    print("extracting degree type")
+    #print("extracting degree type")
     http = urllib3.PoolManager()
     attempt = 0
     while attempt < retries:

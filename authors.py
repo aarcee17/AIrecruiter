@@ -67,7 +67,7 @@ def main():
     prof_url = get_professor_url(prof_name, university)
 
     if prof_url:
-        print(f"GS url: {prof_url}")
+        #print(f"GS url: {prof_url}")
         citation_links = get_citation_links(prof_url)
         all_authors = []
 
