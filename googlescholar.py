@@ -6,7 +6,7 @@ from rank_bm25 import BM25Okapi
 import nltk
 from googlesearch import search
 
-nltk.download('punkt', quiet=True)
+# nltk.download('punkt', quiet=True)
 
 def tokenize(text):
     return nltk.word_tokenize(text.lower())
