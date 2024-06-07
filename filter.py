@@ -2,11 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 from googlesearch import search
 import time
-from authors import get_professor_url, get_citation_links, get_authors_from_citation
+from authors import *
 import urllib3
-import requests
-from bs4 import BeautifulSoup
-import time
 from prof import *
 import os
 def extract_degree_type(scholar_url, retries=5):
