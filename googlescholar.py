@@ -2,13 +2,15 @@ import requests
 from bs4 import BeautifulSoup
 import time
 import math
+import nltk
 from rank_bm25 import BM25Okapi
 from googlesearch import search
 from textblob import TextBlob
-# nltk.download('punkt', quiet=True)
+
+#nltk.download('punkt', quiet=True)
 
 def tokenize(text):
-    return [word.lower() for word in TextBlob(text).words]
+    return nltk.word_tokenize(text.lower())
 
 def fetch_scholar_data(scholar_url):
     headers = {
