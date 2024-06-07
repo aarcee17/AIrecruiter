@@ -5,7 +5,6 @@ import math
 import nltk
 from rank_bm25 import BM25Okapi
 from googlesearch import search
-from textblob import TextBlob
 
 nltk.download('punkt', quiet=True)
 
