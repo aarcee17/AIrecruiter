@@ -5,7 +5,7 @@ import math
 from rank_bm25 import BM25Okapi
 import nltk
 from googlesearch import search
-# Ensure you have the necessary NLTK data
+
 nltk.download('punkt')
 
 def tokenize(text):

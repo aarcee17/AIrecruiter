@@ -15,12 +15,12 @@ professors = {
         {"name": "Leslie Kaelbling", "webpage": "https://people.csail.mit.edu/lpk/"}
     ],
     "Carnegie Mellon University": [
-        {"name": "Manuela Veloso", "webpage": "https://www.cs.cmu.edu/~mmv/"},
+        {"location": "Pittsburgh", "name": "Manuela Veloso", "webpage": "https://www.cs.cmu.edu/~mmv/"},
         {"name": "Ruslan Salakhutdinov", "webpage": "http://www.cs.cmu.edu/~rsalakhu/"},
         {"name": "Geoffrey Gordon", "webpage": "http://www.cs.cmu.edu/~ggordon/"}
     ],
     "University of Illinois at Urbana-Champaign": [
-        {"name": "Jiawei Han", "webpage": "https://hanj.cs.illinois.edu/"},
+        {"location": "Illinois","name": "Jiawei Han", "webpage": "https://hanj.cs.illinois.edu/"},
         {"name": "Dan Roth", "webpage": "https://www.danroth.me/"},
         {"name": "Karrie Karahalios", "webpage": "https://social.cs.illinois.edu/kkarahal/"}
     ],

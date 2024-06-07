@@ -1,7 +1,6 @@
-venv
+
+venv/
 /venv
-/rough
-rough
-/req.txt
-/flowacharts
-flowacharts
+__pycache__/
+/__pycache__
+

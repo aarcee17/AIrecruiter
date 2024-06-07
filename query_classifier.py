@@ -6,7 +6,7 @@ from filter import *
 from prof import *
 import sys
 def classify_query(query):
-    # Keywords for different categories
+    
     github_keywords = [
         "github", "repository", "programmer", "developer", "engineer", "coder",
         "engineers", "programmers", "developers", "gpt", "tensorflow", "pytorch", "keras",
@@ -44,7 +44,7 @@ def classify_query(query):
         "student life", "campus life", "study group"
     ]
 
-    # Limited locations for focused search
+    
     locations = [
         "Boston", "California", "Seattle", "Berkeley", "New York", "San Francisco",
         "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio",
@@ -54,7 +54,7 @@ def classify_query(query):
 
     classification = {"github": False, "scholar": False, "student": False, "location": None}
 
-    # Check each word in the query to determine the category
+    
     words = query.lower().split()
     for word in words:
         if word in locations:
