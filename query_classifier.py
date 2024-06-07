@@ -20,7 +20,7 @@ def classify_query(query):
     ]
 
     scholar_keywords = [
-        "google scholar", "scholar", "research", "citations", "paper", "publication",
+        "google scholar","google scholars", "scholar","scholars", "research", "citations", "paper", "publication",
         "h-index", "i10-index", "journal", "conference", "arxiv", "preprint",
         "peer-reviewed", "bibliometrics", "impact factor", "researcher", "academic",
         "professor", "phd", "msc", "postdoc", "research assistant", "principal investigator",
@@ -49,7 +49,7 @@ def classify_query(query):
         "Boston", "California", "Seattle", "Berkeley", "New York", "San Francisco",
         "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio",
         "San Diego", "Dallas", "San Jose", "Austin", "Jacksonville", "Fort Worth",
-        "Columbus", "Charlotte"
+        "Columbus", "Charlotte", "Toronto", "Delhi", "Bangalore", "Hyderabad"
     ]
 
     classification = {"github": False, "scholar": False, "student": False, "location": None}
