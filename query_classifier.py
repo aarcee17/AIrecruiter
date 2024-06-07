@@ -45,12 +45,13 @@ def classify_query(query):
     ]
 
     
-    locations = [
+    llocations = [
         "Boston", "California", "Seattle", "Berkeley", "New York", "San Francisco",
         "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio",
         "San Diego", "Dallas", "San Jose", "Austin", "Jacksonville", "Fort Worth",
         "Columbus", "Charlotte", "Toronto", "Delhi", "Bangalore", "Hyderabad"
     ]
+    locations = [loc.lower() for loc in llocations]
 
     classification = {"github": False, "scholar": False, "student": False, "location": None}
 
@@ -73,10 +74,13 @@ def process_query(query):
 
     categories = []
     if classification["github"]:
+        #print("github")
         categories.append("github")
     if classification["scholar"]:
+        #print("scholar")
         categories.append("scholar")
     if classification["student"]:
+        #print("student")
         categories.append("student")
     location = classification["location"]
     
@@ -91,6 +95,7 @@ def extract_parameters(query):
             k = int(word)
         elif word.lower() == "top" and i < len(words) - 1 and words[i+1].isdigit():
             k = int(words[i+1])
+    #print("detected k = {k}")        
     return k         
 
 def find_colleges(location):
@@ -109,16 +114,19 @@ k = extract_parameters(query)
 
 for category in categories:
     if category == "github":
+        #print("Finding top {k} GitHub profiles in {location}...".format(k=k, location=location))
         top_k_profiles = fetch_topkgithub(k, location)
         
         for profile in top_k_profiles:
             print(f"GitHub ID: {profile['github_id']}\n Link: https://github.com/{profile['github_id']}\n  Total Score: {profile['total_score']}\n")
     elif category == "scholar":
+        #print("Finding top {k} scholars in {location}...".format(k=k, location=location))
         top_k_profiles = topk_googlescholar(k, location)
         #write_profile_to_csv(top_k_profiles)
         for profile in top_k_profiles:
             print(f"Name: {profile['name']}\n relevance: {profile['relevance_score']}\n citations: {profile['citations']}\n H-index: {profile['h_index']}\n Degree/Institute of Work: {profile['degree_type']}\n Profile Link: {profile['scholar_url']}\n Linkedin Link: {profile['Linkedin']}\n")
     elif category == "student":
+        #print("Finding top {k} students in {location}...".format(k=k, location=location))
         colleges = find_colleges(location)
         for college in colleges:
             remain(college, k)

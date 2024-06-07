@@ -11,7 +11,7 @@ def fetch_topkgithub(k, location=None):
             query += f" {location}"
         
         url = f"https://github.com/search?q={query}&type=users"
-        
+        print("Fetching GitHub search page...")
         response = requests.get(url)
         if response.status_code != 200:
             raise Exception(f"Failed to fetch GitHub search page: {response.status_code}")

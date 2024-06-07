@@ -7,6 +7,7 @@ import urllib3
 from prof import *
 import os
 def extract_degree_type(scholar_url, retries=5):
+    print("extracting degree type")
     http = urllib3.PoolManager()
     attempt = 0
     while attempt < retries:
@@ -33,6 +34,7 @@ def extract_degree_type(scholar_url, retries=5):
 
 def get_degree_type(author_name, prof_name, university):
     query = f"{author_name} Google Scholar {university}"
+    print("query is " + query)
     for url in search(query, num_results=5):
         if 'scholar.google.com/citations?' in url:
             #print("url is "+ url)
@@ -44,6 +46,7 @@ def get_degree_type(author_name, prof_name, university):
 def filter_authors(authors_list):
     filtered_authors = []
     for author in authors_list:
+        print("author is " + str(author))
         name, prof_name, university = author
         degree_type, url = get_degree_type(name, prof_name, university)
         if (degree_type != 'flagged'):

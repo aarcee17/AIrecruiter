@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 import subprocess
-
+import os
 app = Flask(__name__)
 
 @app.route('/')
@@ -14,9 +14,10 @@ def process_query():
     return render_template('result.html', result=result)
 
 def run_query_classifier(query):
-    result = subprocess.run(['python', 'query_classifier.py', query], capture_output=True, text=True)
+    result = subprocess.run(['python3', 'query_classifier.py', query], capture_output=True, text=True)
     return result.stdout
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',port = 10000, debug=True)
+    port = int(os.environ.get("PORT", 8000))
+    app.run(host="0.0.0.0", port=port)
 #check

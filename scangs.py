@@ -72,7 +72,7 @@ def topk_googlescholar(k, location=None):
     for query in queries:
         if location:
             query += f" {location}"
-
+        print(f"Searching for {query}")
         profiles = search_google_scholar(query)
         
 
