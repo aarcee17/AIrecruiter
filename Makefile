@@ -1,3 +1,5 @@
+localRun:
+	python app.py
 build:
 	docker build -t recapp .
 
