@@ -2,14 +2,12 @@ import requests
 from bs4 import BeautifulSoup
 import time
 import math
-import nltk
 from rank_bm25 import BM25Okapi
 from googlesearch import search
 
-nltk.download('punkt', quiet=True)
-
 def tokenize(text):
-    return nltk.word_tokenize(text.lower())
+    # Basic tokenization: lowercasing and splitting by whitespace
+    return text.lower().split()
 
 def fetch_scholar_data(scholar_url):
     headers = {
@@ -56,7 +54,7 @@ def fetch_scholar_data(scholar_url):
         for item in soup.select('#gsc_prf_int'):
             description = item.text.strip()
 
-    ai_ml_prompts = [
+    ai_ml_corpus = [
         "machine learning",
         "artificial intelligence",
         "deep learning",
@@ -79,9 +77,9 @@ def fetch_scholar_data(scholar_url):
         "support vector machines"
     ]
 
-    tokenized_prompts = [tokenize(prompt) for prompt in ai_ml_prompts]
+    tokenized_prompts = [tokenize(prompt) for prompt in ai_ml_corpus]
     bm25 = BM25Okapi(tokenized_prompts)
-    
+
     if description:
         tokenized_description = tokenize(description)
         relevance_scores = bm25.get_scores(tokenized_description)

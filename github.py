@@ -1,63 +1,23 @@
 import requests
 from bs4 import BeautifulSoup
 from rank_bm25 import BM25Okapi
-import time
-
+import numpy as np
 # Example corpus for BM25
-ai_ml_corpus = [
-    "machine learning",
-    "artificial intelligence",
-    "deep learning",
-    "neural networks",
-    "supervised learning",
-    "unsupervised learning",
-    "reinforcement learning",
-    "data science",
-    "computer vision",
-    "natural language processing",
-    "AI architecture",
-    "MLOps",
-    "robotics",
-    "autonomous systems",
-    "big data",
-    "data mining",
-    "predictive analytics",
-    "algorithm development",
-    "pattern recognition",
-    "speech recognition",
-    "image processing",
-    "tensor operations",
-    "model training",
-    "hyperparameter tuning",
-    "model evaluation",
-    "feature engineering",
-    "data preprocessing",
-    "model deployment",
-    "cloud computing",
-    "distributed computing",
-    "parallel computing",
-    "GPU acceleration",
-    "neural architecture search",
-    "transfer learning",
-    "meta learning",
-    "self-supervised learning",
-    "semi-supervised learning",
-    "explainable AI",
-    "AI ethics",
-    "federated learning",
-    "adversarial learning",
-    "generative models",
-    "transformer models",
-    "BERT",
-    "GPT",
-    "computer graphics",
-    "genetic algorithms",
-    "support vector machines",
-    "ensemble methods",
-    "time series analysis",
-    "dimensionality reduction",
-    "clustering algorithms"
-]
+# ai_ml_corpus = [
+#     "machine learning", "artificial intelligence", "deep learning", "neural networks",
+#     "supervised learning", "unsupervised learning", "reinforcement learning", "data science",
+#     "computer vision", "natural language processing", "AI architecture", "MLOps", "robotics",
+#     "autonomous systems", "big data", "data mining", "predictive analytics", "algorithm development",
+#     "pattern recognition", "speech recognition", "image processing", "tensor operations", "model training",
+#     "hyperparameter tuning", "model evaluation", "feature engineering", "data preprocessing",
+#     "model deployment", "cloud computing", "distributed computing", "parallel computing", "GPU acceleration",
+#     "neural architecture search", "transfer learning", "meta learning", "self-supervised learning",
+#     "semi-supervised learning", "explainable AI", "AI ethics", "federated learning", "adversarial learning",
+#     "generative models", "transformer models", "BERT", "GPT", "computer graphics", "genetic algorithms",
+#     "support vector machines", "ensemble methods", "time series analysis", "dimensionality reduction",
+#     "clustering algorithms"
+# ]
+ai_ml_corpus = ["engineer","researcher","AI Architect","ML Architect"]
 
 bm25 = BM25Okapi([doc.split() for doc in ai_ml_corpus])
 
@@ -74,6 +34,7 @@ class UserGitHubDetails:
         self.bio = None
         self.location = None
         self.organization = None
+        self.linkedin_url = "URL not found"
         self.repositories = []
 
     def fetch_profile_details(self):
@@ -87,6 +48,11 @@ class UserGitHubDetails:
         self.bio = soup.find('div', class_='p-note user-profile-bio mb-3 js-user-profile-bio f4').text.strip() if soup.find('div', class_='p-note user-profile-bio mb-3 js-user-profile-bio f4') else None
         self.location = soup.find('span', class_='p-label').text.strip() if soup.find('span', class_='p-label') else None
         self.organization = soup.find('span', class_='p-org').text.strip() if soup.find('span', class_='p-org') else None
+        
+        # Extract LinkedIn URL
+        linkedin_element = soup.find('a', class_='Link--primary', rel='nofollow me')
+        if linkedin_element and 'linkedin.com' in linkedin_element['href']:
+            self.linkedin_url = linkedin_element['href']
 
     def fetch_repositories(self):
         page = 1
@@ -99,8 +65,8 @@ class UserGitHubDetails:
             soup = BeautifulSoup(response.text, 'html.parser')
             repos = soup.find_all('li', class_='col-12 d-flex flex-justify-between width-full py-4 border-bottom color-border-muted public fork')
             repos += soup.find_all('li', class_='col-12 d-flex flex-justify-between width-full py-4 border-bottom color-border-muted public source')
-            if len(repos) > 30:
-                repos = repos[:30]
+            if len(repos) > 20:
+                repos = repos[:20]
             if not repos:
                 break
 
@@ -124,7 +90,7 @@ def score_repositories(repo_data):
         stars_score = repo['stars']
         tokenized_description = repo['description'].split() if repo['description'] else []
         project_relevance_score = sum(bm25.get_scores(tokenized_description))
-        total_score = stars_score + project_relevance_score
+        total_score = np.log(stars_score+2)*((project_relevance_score+1))
         scores.append({
             'name': repo['name'],
             'score': total_score,
@@ -137,7 +103,11 @@ def score_repositories(repo_data):
 def aggregate_scores(scores):
     total_score = sum(repo['score'] for repo in scores)
     return total_score
-
+def bio_score(bio):
+        tokenized_description = bio.split() if bio else []
+        brs = sum(bm25.get_scores(tokenized_description))
+        return brs
+    
 def score_github_user(username):
     user_details = UserGitHubDetails(username)
     user_details.fetch_all_details()
@@ -151,7 +121,7 @@ def score_github_user(username):
         })
     
     scores = score_repositories(repo_data)
-    total_score = aggregate_scores(scores)
+    total_score = aggregate_scores(scores) +100*bio_score(user_details.bio)**3
     return total_score, user_details, scores
 
 def main():
@@ -160,10 +130,19 @@ def main():
         total_score, user_profile, detailed_scores = score_github_user(username)
         print(f"Total GitHub Score for {username}: {total_score}")
         print("User Profile:")
-        print(user_profile)
-        print("Detailed Scores:")
+        print(f"Username: {user_profile.username}")
+        print(f"Name: {user_profile.name}")
+        print(f"Bio: {user_profile.bio}")
+        print(f"Location: {user_profile.location}")
+        print(f"Organization: {user_profile.organization}")
+        print(f"LinkedIn URL: {user_profile.linkedin_url}")
+        print("\nDetailed Scores:")
         for score in detailed_scores:
-            print(f"Repository: {score['name']}, Score: {score['score']}, Stars: {score['stars']}, Description: {score['description']}, Relevance Score: {score['relevance_score']}")
+            print(f"Repository: {score['name']}")
+            print(f"  Score: {score['score']}")
+            print(f"  Stars: {score['stars']}")
+            print(f"  Description: {score['description']}")
+            print(f"  Relevance Score: {score['relevance_score']}\n")
     except Exception as e:
         print(f"Error: {e}")
 

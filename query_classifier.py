@@ -46,10 +46,10 @@ def classify_query(query):
 
     
     llocations = [
-        "Boston", "California", "Seattle", "Berkeley", "New York", "San Francisco",
-        "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio",
-        "San Diego", "Dallas", "San Jose", "Austin", "Jacksonville", "Fort Worth",
-        "Columbus", "Charlotte", "Toronto", "Delhi", "Bangalore", "Hyderabad"
+        "boston", "california", "seattle", "berkeley", "new york", "san francisco",
+        "los angeles", "chicago", "houston", "phoenix", "philadelphia", "san antonio",
+        "san Diego", "dallas", "san jose", "austin", "Jacksonville", "Fort Worth",
+        "columbus", "charlotte", "toronto", "delhi", "bangalore", "hyderabad"
     ]
     locations = [loc.lower() for loc in llocations]
 
@@ -83,9 +83,9 @@ def process_query(query):
         #print("student")
         categories.append("student")
     location = classification["location"]
-    
+    print(location)
     return categories, location
-
+#AI architect Pan US, LLM, vectors, 
 def extract_parameters(query):
     k = 7
 

@@ -65,15 +65,17 @@ def write_profile_to_csv(profiles, filename="scholars.csv"):
 
     
 def topk_googlescholar(k, location=None):
-    queries = ["Artifical Intelligence","Machine Learning"]
-    #queries = ["AI Architect", "AI Architect"]
+    #queries = ["Artifical Intelligence","Machine Learning"]
+    queries = ["AI Architect", "AI Architecture","Vector","Natural language processing","large language models","deep learning" ]
+    queries = ["AI Architect"]
+    profiles = []
     #queries = top_labs(location=None)
     filtered_profiles = []
     for query in queries:
         if location:
             query += f" {location}"
         #print(f"Searching for {query}")
-        profiles = search_google_scholar(query)
+        profiles += search_google_scholar(query)
         
 
         for profile in profiles:
@@ -89,11 +91,15 @@ def topk_googlescholar(k, location=None):
                     'degree_type': degree_type,
                     'Linkedin': fetch_linkedin_url(scholar_data.get('name', 'N/A'),scholar_data.get('location', 'N/A'))
                 })
+                print(profile)
+                
             time.sleep(1)  
-#n
+
     sorted_profiles = sorted(filtered_profiles, key=lambda x: x['relevance_score'], reverse=True)
-    
-    return sorted_profiles[:k]
+    if not sorted_profiles:
+        return []
+    write_profile_to_csv(sorted_profiles)
+    return sorted_profiles
 
 if __name__ == "__main__":
     top_k_profiles = topk_googlescholar(8, "Seattle")
