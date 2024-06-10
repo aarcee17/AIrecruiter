@@ -3,21 +3,21 @@ from bs4 import BeautifulSoup
 from rank_bm25 import BM25Okapi
 import numpy as np
 # Example corpus for BM25
-# ai_ml_corpus = [
-#     "machine learning", "artificial intelligence", "deep learning", "neural networks",
-#     "supervised learning", "unsupervised learning", "reinforcement learning", "data science",
-#     "computer vision", "natural language processing", "AI architecture", "MLOps", "robotics",
-#     "autonomous systems", "big data", "data mining", "predictive analytics", "algorithm development",
-#     "pattern recognition", "speech recognition", "image processing", "tensor operations", "model training",
-#     "hyperparameter tuning", "model evaluation", "feature engineering", "data preprocessing",
-#     "model deployment", "cloud computing", "distributed computing", "parallel computing", "GPU acceleration",
-#     "neural architecture search", "transfer learning", "meta learning", "self-supervised learning",
-#     "semi-supervised learning", "explainable AI", "AI ethics", "federated learning", "adversarial learning",
-#     "generative models", "transformer models", "BERT", "GPT", "computer graphics", "genetic algorithms",
-#     "support vector machines", "ensemble methods", "time series analysis", "dimensionality reduction",
-#     "clustering algorithms"
-# ]
-ai_ml_corpus = ["engineer","researcher","AI Architect","ML Architect"]
+ai_ml_corpus = [
+    "machine learning", "artificial intelligence", "deep learning", "neural networks",
+    "supervised learning", "unsupervised learning", "reinforcement learning", "data science",
+    "computer vision", "natural language processing", "AI architecture", "MLOps", "robotics",
+    "autonomous systems", "big data", "data mining", "predictive analytics", "algorithm development",
+    "pattern recognition", "speech recognition", "image processing", "tensor operations", "model training",
+    "hyperparameter tuning", "model evaluation", "feature engineering", "data preprocessing",
+    "model deployment", "cloud computing", "distributed computing", "parallel computing", "GPU acceleration",
+    "neural architecture search", "transfer learning", "meta learning", "self-supervised learning",
+    "semi-supervised learning", "explainable AI", "AI ethics", "federated learning", "adversarial learning",
+    "generative models", "transformer models", "BERT", "GPT", "computer graphics", "genetic algorithms",
+    "support vector machines", "ensemble methods", "time series analysis", "dimensionality reduction",
+    "clustering algorithms"
+]
+#ai_ml_corpus = ["engineer","researcher","AI Architect","ML Architect"]
 
 bm25 = BM25Okapi([doc.split() for doc in ai_ml_corpus])
 
@@ -121,7 +121,7 @@ def score_github_user(username):
         })
     
     scores = score_repositories(repo_data)
-    total_score = aggregate_scores(scores) +100*bio_score(user_details.bio)**3
+    total_score = aggregate_scores(scores) +10*bio_score(user_details.bio)**2
     return total_score, user_details, scores
 
 def main():

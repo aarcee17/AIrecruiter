@@ -65,9 +65,9 @@ def write_profile_to_csv(profiles, filename="scholars.csv"):
 
     
 def topk_googlescholar(k, location=None):
-    #queries = ["Artifical Intelligence","Machine Learning"]
-    queries = ["AI Architect", "AI Architecture","Vector","Natural language processing","large language models","deep learning" ]
-    queries = ["AI Architect"]
+    queries = ["Artifical Intelligence","Machine Learning"]
+    #queries = ["AI Architect", "AI Architecture","Vector","Natural language processing","large language models","deep learning" ]
+    #queries = ["AI Architect"]
     profiles = []
     #queries = top_labs(location=None)
     filtered_profiles = []

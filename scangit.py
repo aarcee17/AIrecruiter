@@ -5,8 +5,8 @@ from linkedin import fetch_linkedin_url
 
 def fetch_topkgithub(k, location=None):
     database = []
-    queries = ["ML Architect","AI Architect","GenAI","Generative AI"]
-    #queries = ["ML","AI","PhD ML","PhD AI","ML engineer","AI engineer","ML researcher","AI researcher"]
+    #queries = ["ML Architect","AI Architect","GenAI","Generative AI"]
+    queries = ["ML","AI","PhD ML","PhD AI","ML engineer","AI engineer","ML researcher","AI researcher"]
     for query in queries:
         
         if location:
@@ -60,8 +60,8 @@ def write_github_to_csv(sorted_profiles):
             writer.writerow(profile)
 
 if __name__ == "__main__":
-    top_k_profiles = fetch_topkgithub(30, "US")
-    write_github_to_csv(top_k_profiles)
+    top_k_profiles = fetch_topkgithub(8, "seattle")
+    #write_github_to_csv(top_k_profiles)
     for profile in top_k_profiles:
         print(f"GitHub ID: {profile['github_id']},Name: {profile['name']},Bio: {profile['bio']},Location: {profile['location']}, LinkedIn: {profile['linkedin']}, Total Score: {profile['total_score']}")
         #print(f"GitHub ID: {profile['github_id']},Detials: {profile['details']} Total Score: {profile['total_score']}")
