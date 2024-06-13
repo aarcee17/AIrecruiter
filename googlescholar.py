@@ -6,7 +6,6 @@ from rank_bm25 import BM25Okapi
 from googlesearch import search
 
 def tokenize(text):
-    # Basic tokenization: lowercasing and splitting by whitespace
     return text.lower().split()
 
 def fetch_scholar_data(scholar_url):

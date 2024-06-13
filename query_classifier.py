@@ -5,6 +5,7 @@ from scangs import *
 from filter import *
 from prof import *
 import sys
+from combiner import *
 def classify_query(query):
     
     github_keywords = [
@@ -108,26 +109,37 @@ def find_colleges(location):
     
     
 # Example usage
-query = ' '.join(sys.argv[1:])
-categories, location = process_query(query)
-k = extract_parameters(query)
+queries = ' '.join(sys.argv[1:])
+list_queries = queries.split(",")
+for query in list_queries:
+    categories, location = process_query(query)
+    k = extract_parameters(query)
 
-for category in categories:
-    if category == "github":
-        #print("Finding top {k} GitHub profiles in {location}...".format(k=k, location=location))
-        top_k_profiles = fetch_topkgithub(k, location)
-        
-        for profile in top_k_profiles:
-            print(f"GitHub ID: {profile['github_id']}\n Link: https://github.com/{profile['github_id']}\n  Total Score: {profile['total_score']}\n")
-    elif category == "scholar":
-        #print("Finding top {k} scholars in {location}...".format(k=k, location=location))
-        top_k_profiles = topk_googlescholar(k, location)
-        #write_profile_to_csv(top_k_profiles)
-        for profile in top_k_profiles:
-            print(f"Name: {profile['name']}\n relevance: {profile['relevance_score']}\n citations: {profile['citations']}\n H-index: {profile['h_index']}\n Degree/Institute of Work: {profile['degree_type']}\n Profile Link: {profile['scholar_url']}\n Linkedin Link: {profile['Linkedin']}\n")
-    elif category == "student":
-        #print("Finding top {k} students in {location}...".format(k=k, location=location))
-        colleges = find_colleges(location)
-        for college in colleges:
-            remain(college, k)
-            time.sleep(2)
+    for category in categories:
+        if category == "github":
+            #print("Finding top {k} GitHub profiles in {location}...".format(k=k, location=location))
+            top_k_profiles = fetch_topkgithub(k, location)
+            write_github_to_csv(top_k_profiles)
+            
+            for profile in top_k_profiles:
+                print(f"GitHub ID: {profile['github_id']}\n Link: https://github.com/{profile['github_id']}\n  Total Score: {profile['total_score']}\n")
+        elif category == "scholar":
+            #print("Finding top {k} scholars in {location}...".format(k=k, location=location))
+            top_k_profiles = topk_googlescholar(k, location)
+            write_profile_to_csv(top_k_profiles)
+            for profile in top_k_profiles:
+                print(f"Name: {profile['name']}\n relevance: {profile['relevance_score']}\n citations: {profile['citations']}\n H-index: {profile['h_index']}\n Degree/Institute of Work: {profile['degree_type']}\n Profile Link: {profile['scholar_url']}\n Linkedin Link: {profile['Linkedin']}\n")
+        elif category == "student":
+            #print("Finding top {k} students in {location}...".format(k=k, location=location))
+            colleges = find_colleges(location)
+            for college in colleges:
+                remain(college, k)
+                time.sleep(2)
+
+github_file = 'github_profiles.csv' 
+authors_file = 'filtered_authors.csv' 
+scholars_file = 'scholar.csv' 
+output_file = 'merged_output.csv' 
+    
+merge_csv_files(github_file, authors_file, scholars_file, output_file)
+print(f"Merged CSV files written to {output_file}")

@@ -49,6 +49,24 @@ def search_google_scholar(query):
     return profiles
 
 
+def remove_duplicates(input_csv, output_csv):
+    unique_profiles = {}
+    
+    with open(input_csv, 'r', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            scholar_url = row['scholar_url']
+            if scholar_url not in unique_profiles:
+                unique_profiles[scholar_url] = row
+    
+    with open(output_csv, 'w', newline='', encoding='utf-8') as csvfile:
+        fieldnames = unique_profiles[next(iter(unique_profiles))].keys()
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        for profile in unique_profiles.values():
+            writer.writerow(profile)
+            
+
 def write_profile_to_csv(profiles, filename="scholars.csv"):
 
 
@@ -62,7 +80,7 @@ def write_profile_to_csv(profiles, filename="scholars.csv"):
         #profile.append('linkedin' :"fetch_linkedin_url(profile['name'],profile['location'])")
         writer.writerow(profile)
       
-
+    remove_duplicates('scholars.csv','scholar.csv')
     
 def topk_googlescholar(k, location=None):
     queries = ["Artifical Intelligence","Machine Learning"]
@@ -102,7 +120,7 @@ def topk_googlescholar(k, location=None):
     return sorted_profiles
 
 if __name__ == "__main__":
-    top_k_profiles = topk_googlescholar(8, "Seattle")
+    top_k_profiles = topk_googlescholar(12, "Seattle")
     write_profile_to_csv(top_k_profiles)
     for profile in top_k_profiles:
         print(f"Name: {profile['name']}\n relevance: {profile['relevance_score']}\n citations: {profile['citations']}\n H-index: {profile['h_index']}\n Degree/Institute of Work: {profile['degree_type']}\n Profile Link: {profile['scholar_url']}\n Linkedin: {profile['Linkedin']}\n")
