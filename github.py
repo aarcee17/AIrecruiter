@@ -3,26 +3,13 @@ from bs4 import BeautifulSoup
 from rank_bm25 import BM25Okapi
 import numpy as np
 import re
+from llm import git_ai_ml_corpus
+
 def extract_numeric(text):
     match = re.search(r'\d+', text.replace(',', ''))
     return int(match.group()) if match else 0
-# Example corpus for BM25
-ai_ml_corpus = [
-    "machine learning", "artificial intelligence", "deep learning", "neural networks",
-    "supervised learning", "unsupervised learning", "reinforcement learning", "data science",
-    "computer vision", "natural language processing", "AI architecture", "MLOps", "robotics",
-    "autonomous systems", "big data", "data mining", "predictive analytics", "algorithm development",
-    "pattern recognition", "speech recognition", "image processing", "tensor operations", "model training",
-    "hyperparameter tuning", "model evaluation", "feature engineering", "data preprocessing",
-    "model deployment", "cloud computing", "distributed computing", "parallel computing", "GPU acceleration",
-    "neural architecture search", "transfer learning", "meta learning", "self-supervised learning",
-    "semi-supervised learning", "explainable AI", "AI ethics", "federated learning", "adversarial learning",
-    "generative models", "transformer models", "BERT", "GPT", "computer graphics", "genetic algorithms",
-    "support vector machines", "ensemble methods", "time series analysis", "dimensionality reduction",
-    "clustering algorithms", "transformers", "attention models", "recurrent neural networks", "LSTM"
-]
 
-bm25 = BM25Okapi([doc.split() for doc in ai_ml_corpus])
+bm25 = BM25Okapi([doc.split() for doc in git_ai_ml_corpus])
 
 class RepoDetails:
     def __init__(self, name, stars, description, language, forks, last_updated):

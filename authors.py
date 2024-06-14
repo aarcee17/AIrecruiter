@@ -23,7 +23,7 @@ def get_response_with_retries(url, retries=5, backoff_factor=1):
         if response.status_code == 200:
             return response
         elif response.status_code == 429:
-            time.sleep(backoff_factor * (2 ** attempt) + random.uniform(0, 1))
+            time.sleep(backoff_factor * (attempt) + random.uniform(0, 1))
         else:
             response.raise_for_status()
     raise Exception(f"fail after {retries} retries")
@@ -36,9 +36,9 @@ def get_authors_from_citation(citation_url):
     if author_element:
         authors = author_element.text
         a = authors.split(", ")
-        if len(a) > 5:
+        if len(a) > 4:
             time.sleep(1)
-            return a[:5]
+            return a[:4]
         else:
             return a
     return []
@@ -56,7 +56,7 @@ def get_citation_links(prof_url):
             href = link['href']
             full_url = base_url + href
             citation_links.append(full_url)
-            if len(citation_links) == 7:  # Limit to the first 15 links
+            if len(citation_links) == 10:  # Limit to the first 15 links
                 break
 
     return citation_links
@@ -72,11 +72,11 @@ def main():
         all_authors = []
 
         for link in citation_links:
-            while(len(all_authors)<30):
+            while(len(all_authors)<50):
                 authors = get_authors_from_citation(link)
                 all_authors.extend(authors)
-                time.sleep(1)
-            time.sleep(1)  
+                time.sleep(0.5)
+            time.sleep(0.5)  
 
         unique_authors = set(all_authors)
         formatted_authors = [(author, prof_name, university) for author in unique_authors]

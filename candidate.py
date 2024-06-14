@@ -32,7 +32,8 @@ class Candidate:
     def printcandidate(self):
         print(f"Candidate: {self.name}, Uni: {self.uni}, Degree: {self.degree_type}, Field of Study: {self.field_of_study}, Prof Guide: {self.professor_guide}, GitHub Score: {self.github_score}, Uni Score: {self.uni_score}, H-Index: {self.h_index}, Overall Score: {self.overall_score}")
     def calculate_uni_score(self):
-        return UNIVERSITY_SCORES[self.uni]
+        #return UNIVERSITY_SCORES[self.uni]
+        return 0
     
     # def calculate_prof_score(self):
         

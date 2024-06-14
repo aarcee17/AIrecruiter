@@ -4,7 +4,7 @@ import time
 import math
 from rank_bm25 import BM25Okapi
 from googlesearch import search
-
+from llm import gs_ai_ml_corpus
 def tokenize(text):
     return text.lower().split()
 
@@ -52,31 +52,8 @@ def fetch_scholar_data(scholar_url):
     if not description:
         for item in soup.select('#gsc_prf_int'):
             description = item.text.strip()
-
-    ai_ml_corpus = [
-        "machine learning",
-        "artificial intelligence",
-        "deep learning",
-        "neural networks",
-        "natural language processing",
-        "computer vision",
-        "reinforcement learning",
-        "data science",
-        "supervised learning",
-        "unsupervised learning",
-        "robotics",
-        "autonomous systems",
-        "computer graphics",
-        "pattern recognition",
-        "speech recognition",
-        "algorithmic trading",
-        "genetic algorithms",
-        "fuzzy logic",
-        "probabilistic models",
-        "support vector machines"
-    ]
-
-    tokenized_prompts = [tokenize(prompt) for prompt in ai_ml_corpus]
+            
+    tokenized_prompts = [tokenize(prompt) for prompt in gs_ai_ml_corpus]
     bm25 = BM25Okapi(tokenized_prompts)
 
     if description:
@@ -86,7 +63,7 @@ def fetch_scholar_data(scholar_url):
     else:
         relevance_score = 0
 
-    metrics['relevance_score'] = 200 * relevance_score + metrics.get('h_index', 1) + math.sqrt(metrics.get('citations', 1000))
+    metrics['relevance_score'] = relevance_score*metrics.get('h_index', 1)*math.sqrt(metrics.get('citations', 1000))/545.70
 
     return metrics
 

@@ -43,10 +43,10 @@ def merge_csv_files(github_file, authors_file, scholars_file, output_file):
     write_csv(output_file, merged_data, sorted_keys)
 
 if __name__ == "__main__":
-    github_file = 'github_profiles.csv'  # Replace with your actual file path
-    authors_file = 'filtered_authors.csv'  # Replace with your actual file path
-    scholars_file = 'scholar.csv'  # Replace with your actual file path
-    output_file = 'merged_output.csv'  # Replace with your desired output file path
+    github_file = 'datalog/github_profiles.csv'  # Replace with your actual file path
+    authors_file = 'datalog/filtered_authors.csv'  # Replace with your actual file path
+    scholars_file = 'datalog/scholar.csv'  # Replace with your actual file path
+    output_file = 'datalog/merged_output.csv'  # Replace with your desired output file path
     
     merge_csv_files(github_file, authors_file, scholars_file, output_file)
     print(f"Merged CSV files written to {output_file}")

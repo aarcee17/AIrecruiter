@@ -5,37 +5,11 @@ from scangs import topk_googlescholar
 from filter import *
 from prof import *
 import sys
-
+from llm import names_list,specific_locations
 categories = input("Enter category: ").split(", ")
 k = int(input("Enter number of profiles to fetch: "))
-#locations = ["California", "USA", ""]
-locations = ["", "Boston", "California", "Seattle", "Berkeley", "New York", "San Francisco", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio"]
-names_list = [
-    "Luma AI",
-    "IBM",
-    "Midjourney",
-    "SoluLab | Blockchain Development Company",
-    "Adobe Firefly",
-    "AI architects",
-    "DataRobot, Inc",
-    "Google",
-    "Gridspace",
-    "HMC Architects",
-    "Nvidia",
-    "Sidewalk Labs",
-    "ZGF Architects",
-    "Autodesk Forma",
-    "ClickUp",
-    "Cooper Carry",
-    "Corgan",
-    "Gensler",
-    "HKS Inc",
-    "Interior Architects",
-    "LeewayHertz",
-    "Microsoft",
-    "Ekkel AI"
-]
-locations+=names_list
+
+specific_locations+=names_list
 def fetch_unique_scholar_profiles(k, locations):
     all_profiles = []
     seen_profiles = {}
@@ -84,11 +58,10 @@ def remove_duplicates(input_csv, output_csv):
             
 for category in categories:
     if category == "github":
-        unique_profiles = fetch_unique_github_profiles(k, locations)
+        unique_profiles = fetch_unique_github_profiles(k, specific_locations)
         for profile in unique_profiles:
             print(f"GitHub ID: {profile['github_id']}\nLink: https://github.com/{profile['github_id']}\nTotal Score: {profile['total_score']}\n")
     elif category == "scholar":
-        unique_profiles = fetch_unique_scholar_profiles(k, locations)
+        unique_profiles = fetch_unique_scholar_profiles(k, specific_locations)
         for profile in unique_profiles:
             print(f"Name: {profile['name']}\nRelevance: {profile['relevance_score']}\nCitations: {profile['citations']}\nH-index: {profile['h_index']}\nDegree/Institute of Work: {profile['degree_type']}\nProfile Link: {profile['scholar_url']}\nLinkedin Link: {profile['Linkedin']}\n")
-remove_duplicates('scholars.csv','scholar.csv')

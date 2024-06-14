@@ -7,22 +7,9 @@ from googlescholar import *
 from filter import extract_degree_type
 import csv
 from linkedin import fetch_linkedin_url
-def top_labs(location):
-    stack = []
-    #we now need to pass or make  dtabase to retrievev a list of top labs. 
-    # a good wuery would be Amazon Ml, apple Ml, google ML, mirosoft ML, openai Ml, etc....
-    queries = [
-        f"top AI labs {location}",
-        f"best AI research labs {location}",
-        f"leading AI research institutes {location}",
-        f"prominent AI labs {location}",
-        f"top machine learning labs {location}",
-        f"best machine learning research labs {location}",
-        f"leading machine learning research institutes {location}",
-        f"prominent machine learning labs {location}"
-    ]
-    return stack
-    
+from llm import gs_queries
+import os
+
 def search_google_scholar(query):
     
     search_url = f"https://scholar.google.com/citations?hl=en&view_op=search_authors&mauthors={query}&btnG="
@@ -49,53 +36,48 @@ def search_google_scholar(query):
     return profiles
 
 
-def remove_duplicates(input_csv, output_csv):
-    unique_profiles = {}
-    
-    with open(input_csv, 'r', encoding='utf-8') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            scholar_url = row['scholar_url']
-            if scholar_url not in unique_profiles:
-                unique_profiles[scholar_url] = row
-    
-    with open(output_csv, 'w', newline='', encoding='utf-8') as csvfile:
-        fieldnames = unique_profiles[next(iter(unique_profiles))].keys()
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writeheader()
-        for profile in unique_profiles.values():
-            writer.writerow(profile)
+
             
 
-def write_profile_to_csv(profiles, filename="scholars.csv"):
+import csv
+import os
 
+def write_profile_to_csv(profiles, filename="datalog/scholar.csv"):
+    # Prepare to track seen URLs
+    seen_urls = set()
+    fieldnames = profiles[0].keys() if profiles else []
 
-  with open(filename, 'a', newline='') as csvfile:
-    writer = csv.DictWriter(csvfile, fieldnames=profiles[0].keys())
- 
-    if csvfile.tell() == 0:
-      writer.writeheader()
+    # Check if file exists to determine if headers are needed
+    file_exists = os.path.isfile(filename)
 
-    for profile in profiles:
-        #profile.append('linkedin' :"fetch_linkedin_url(profile['name'],profile['location'])")
-        writer.writerow(profile)
-      
-    remove_duplicates('scholars.csv','scholar.csv')
+    with open(filename, 'a', newline='', encoding='utf-8') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        
+        # Only write header if file didn't exist (first run)
+        if not file_exists:
+            writer.writeheader()
+
+        for profile in profiles:
+            scholar_url = profile.get('scholar_url', None)
+            # Only write profile if URL has not been seen
+            if scholar_url not in seen_urls:
+                seen_urls.add(scholar_url)
+                writer.writerow(profile)
+
+    print(f"Data written to {filename} with duplicates based on scholar_url removed.")
+
+    
     
 def topk_googlescholar(k, location=None):
-    queries = ["Artifical Intelligence","Machine Learning"]
-    #queries = ["AI Architect", "AI Architecture","Vector","Natural language processing","large language models","deep learning" ]
-    #queries = ["AI Architect"]
+    
     profiles = []
-    #queries = top_labs(location=None)
     filtered_profiles = []
-    for query in queries:
+    for query in gs_queries:
         if location:
             query += f" {location}"
         #print(f"Searching for {query}")
         profiles += search_google_scholar(query)
         
-
         for profile in profiles:
             scholar_data = fetch_scholar_data(profile)
             degree_type = extract_degree_type(profile)

@@ -45,7 +45,7 @@ def filter_authors(authors_list):
     for author in authors_list:
         name, prof_name, university = author
         degree_type, url = get_degree_type(name, prof_name, university)
-        linkedin_url = fetch_linkedin_url(name, university)
+        linkedin_url = fetch_linkedin_url(name, degree_type)
         if url != "None" and url not in seen_urls:
             seen_urls.add(url)
             if degree_type != 'flagged':
