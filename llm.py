@@ -64,7 +64,7 @@ scholar_keywords = [
 ]
 
 student_keywords = [
-        "student", "lab", "labs", "university", "universities", "AI labs", "researcher",
+        "student", "lab", "labs", "university", "universities", "ai labs", "researcher",
         "undergraduate", "bachelor's", "master's", "phd student", "msc student",
         "bsc student", "graduate student", "postgraduate student", "research intern",
         "internship", "academic program", "coursework", "research project", "academic advisor",

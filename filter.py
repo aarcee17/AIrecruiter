@@ -57,7 +57,7 @@ def write_authors_to_csv(authors, filename):
     with open(filename, 'a', newline='') as csvfile:
         csv_writer = csv.writer(csvfile, delimiter=',')
         if os.path.getsize(filename) == 0:
-            csv_writer.writerow(['name', 'scholar_url', 'linkedin_url', 'professor', 'university', 'degree_type', 'field_of_study'])
+            csv_writer.writerow(['name', 'scholar_url', 'Linkedin', 'professor', 'university', 'degree_type', 'field_of_study'])
         for author in authors:
             csv_writer.writerow(author)
 
@@ -71,7 +71,7 @@ def main():
         print("Google Scholar URL not found.")
         return
 
-    print(f"Found Google Scholar URL: {prof_url}")
+    #print(f"Found Google Scholar URL: {prof_url}")
     citation_links = get_citation_links(prof_url)
     all_authors = []
 
@@ -80,8 +80,8 @@ def main():
         for author in authors:
             all_authors.append((author, prof_name, university))
         time.sleep(0.5)  
-    for aut in all_authors:
-        print(aut)
+    # for aut in all_authors:
+    #     print(aut)
     all_authors = all_authors[:inpr]
     filtered_authors = filter_authors(all_authors)
     filtered_authors = filtered_authors[:inprr]
@@ -103,7 +103,7 @@ def remain(university, k):
             print("Google Scholar URL not found.")
             return
 
-        print(f"Found Google Scholar URL: {prof_url}")
+        #print(f"Found Google Scholar URL: {prof_url}")
         citation_links = get_citation_links(prof_url)
         for link in citation_links:
             authors = get_authors_from_citation(link)
@@ -114,12 +114,12 @@ def remain(university, k):
     #     print(aut)
     all_authors = all_authors[:inpr]
     filtered_authors = filter_authors(all_authors)
-    filtered_authors = filtered_authors[:inprr]
+    #filtered_authors = filtered_authors[:inprr]
     
     print("Filtered authors with degree types:")
     for author in filtered_authors:
         print(author)
-    write_authors_to_csv(filtered_authors, 'filtered_authors.csv')
+    write_authors_to_csv(filtered_authors, 'datalog/filtered_authors.csv')
 
 if __name__ == "__main__":
     main()

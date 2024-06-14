@@ -80,7 +80,7 @@ for query in list_queries:
         elif category == "scholar":
             #print("Finding top {k} scholars in {location}...".format(k=k, location=location))
             top_k_profiles = topk_googlescholar(k, location)
-            write_profile_to_csv(top_k_profiles)
+            #write_profile_to_csv(top_k_profiles)
             for profile in top_k_profiles:
                 print(f"Name: {profile['name']}\n relevance: {profile['relevance_score']}\n citations: {profile['citations']}\n H-index: {profile['h_index']}\n Degree/Institute of Work: {profile['degree_type']}\n Profile Link: {profile['scholar_url']}\n Linkedin Link: {profile['Linkedin']}\n")
         elif category == "student":
@@ -90,10 +90,10 @@ for query in list_queries:
                 remain(college, k)
                 time.sleep(2)
 
-github_file = 'datalog/github_profiles.csv' 
-authors_file = 'datalog/filtered_authors.csv' 
-scholars_file = 'datalog/scholar.csv' 
-output_file = 'datalog/merged_output.csv' 
+# github_file = 'datalog/github_profiles.csv' 
+# authors_file = 'datalog/filtered_authors.csv' 
+# scholars_file = 'datalog/scholar.csv' 
+# output_file = 'datalog/merged_output.csv' 
     
-merge_csv_files(github_file, authors_file, scholars_file, output_file)
-print(f"Merged CSV files written to {output_file}")
+#merge_csv_files(github_file, authors_file, scholars_file, output_file)
+#print(f"Merged CSV files written to {output_file}")

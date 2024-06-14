@@ -103,6 +103,6 @@ def topk_googlescholar(k, location=None):
 
 if __name__ == "__main__":
     top_k_profiles = topk_googlescholar(12, "Seattle")
-    write_profile_to_csv(top_k_profiles)
+    #write_profile_to_csv(top_k_profiles)
     for profile in top_k_profiles:
         print(f"Name: {profile['name']}\n relevance: {profile['relevance_score']}\n citations: {profile['citations']}\n H-index: {profile['h_index']}\n Degree/Institute of Work: {profile['degree_type']}\n Profile Link: {profile['scholar_url']}\n Linkedin: {profile['Linkedin']}\n")

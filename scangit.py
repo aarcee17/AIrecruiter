@@ -56,11 +56,11 @@ def fetch_topkgithub(k, location=None):
             for github_id in database:
                 total_score, details, detailed_scores = score_github_user(github_id)
                 github_profiles.append({
-                    'github_id': github_id,
+                    'github_id': 'https://github.com/{github_id}'.format(github_id=github_id),
                     'name': details.name,
                     'bio': details.bio,
                     'location': details.location,
-                    'linkedin': details.linkedin_url,
+                    'Linkedin': details.linkedin_url,
                     'total_score': total_score + 1,
                 })
                 scores.append(total_score)
@@ -84,7 +84,7 @@ def fetch_topkgithub(k, location=None):
 
 def write_github_to_csv(sorted_profiles):
     with open('datalog/github_profiles.csv', 'w') as csvfile:
-        fieldnames = ['github_id', 'name', 'bio', 'location', 'linkedin', 'total_score', 'normalized_score']
+        fieldnames = ['github_id', 'name', 'bio', 'location', 'Linkedin', 'total_score', 'normalized_score']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         for profile in sorted_profiles:
@@ -94,4 +94,4 @@ if __name__ == "__main__":
     top_k_profiles = fetch_topkgithub(8, "USA")
     write_github_to_csv(top_k_profiles)
     for profile in top_k_profiles:
-        print(f"GitHub ID: {profile['github_id']}\n Name: {profile['name']}\n Normalized Score: {profile['normalized_score']}\n Total Score: {profile['total_score']}\n Bio: {profile['bio']}\n Location: {profile['location']}\n LinkedIn: {profile['linkedin']}\n")
+        print(f"GitHub ID: {profile['github_id']}\n Name: {profile['name']}\n Normalized Score: {profile['normalized_score']}\n Total Score: {profile['total_score']}\n Bio: {profile['bio']}\n Location: {profile['location']}\n LinkedIn: {profile['inkedin']}\n")

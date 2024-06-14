@@ -3,97 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Recruiter Query</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-        }
-        label {
-            display: block;
-            margin-top: 10px;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            margin-top: 20px;
-            cursor: pointer;
-        }
-        button:hover {
-            background: #0056b3;
-        }
-        .instructions {
-            margin-top: 20px;
-            font-size: 0.9em;
-            color: #333;
-        }
-        .instructions ul {
-            padding-left: 20px;
-        }
-        .loading {
-            display: none;
-            text-align: center;
-            margin-top: 20px;
-        }
-        .loading img {
-            width: 50px;
-            height: 50px;
-        }
-    </style>
-    <script>
-        function showLoading() {
-            document.getElementById('loading').style.display = 'block';
-        }
-    </script>
+    <title>AI recruiter</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>AI Recruiter Query</h1>
-        <form action="/process_query" method="post" onsubmit="showLoading()">
-            <label for="query">Enter your query:</label>
-            <input type="text" id="query" name="query" required>
-            <div class="instructions">
-                <p>Please pick one of the following locations: Boston, California, Seattle, Berkeley, Toronto.</p>
-                <p>Sample queries:</p>
-                <ul>
-                    <li>"Find top 6 students who have good GitHub presence in Boston."</li>
-                    <li>"Recruit top 5 students in California who have worked on computer vision projects."</li>
-                    <li>"Find top 8 programmers in Seattle and have published papers on NLP."</li>
-                    <li>"Recruit top 3 scholars in Berkeley."</li>
-                    <li>"Top 8 people who have worked in AI labs in Toronto."</li>
-                </ul>
-            </div>
-            <button type="submit">Submit</button>
+    <div class="container mt-5">
+        <h1>AIrecruiter</h1>
+
+        <!-- Form to submit query -->
+        <form action="/" method="post">
+            <input type="text" name="query" class="form-control" placeholder="Enter your query">
+            <button type="submit" class="btn btn-primary mt-2">Run Query</button>
         </form>
-        <div id="loading" class="loading">
-            <img src="https://www.example.com/loading.gif" alt="Loading..."> <!-- Replace with actual loading GIF URL -->
-            <p>Loading, please wait...</p>
-        </div>
+
+        <!-- Form to select CSV file -->
+        <form action="/" method="post" class="mt-4">
+            <select name="filename" class="form-select">
+                <option value="scholar.csv">Scholar</option>
+                <option value="github_profiles.csv">GitHub Profiles</option>
+                <option value="filtered_authors.csv">Filtered Profiles</option>
+            </select>
+            <button type="submit" class="btn btn-secondary mt-2">Display</button>
+        </form>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% if csv_html %}
+            <div class="mt-4">{{ csv_html|safe }}</div>
+        {% endif %}
+        {% if csv_html %}
+            <div class="mt-4">{{ csv_html|safe }}</div>
+    
+            <a href="{{ url_for('download_file', filename=request.form['filename']) }}" class="btn btn-success mt-2">Download CSV</a>
+{% endif %}
+
     </div>
 </body>
 </html>
