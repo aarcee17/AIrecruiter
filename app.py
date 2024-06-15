@@ -6,20 +6,25 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
+import validators
+
 def load_csv_data(filename):
     try:
         filepath = os.path.join('datalog', filename)
         if os.path.exists(filepath):
             df = pd.read_csv(filepath)
-            for column in ['LinkedIn', 'scholar_url']:
-                if column in df.columns:
-                    # Only create links for valid URLs
-                    df[column] = df[column].apply(lambda x: f'<a href="{x}">{x}</a>' if pd.notnull(x) and (x.startswith('http://') or x.startswith('https://')) else (x if pd.notnull(x) else 'N/A'))
+            # Process LinkedIn URLs, ensuring they are valid before converting to HTML links
+            if 'LinkedIn' in df.columns:
+                df['LinkedIn'] = df['LinkedIn'].apply(lambda x: f'<a href="{x}">{x}</a>' if validators.url(x) else x)
+            # Continue with 'scholar_url' as you have been, assuming these are generally valid
+            if 'scholar_url' in df.columns:
+                df['scholar_url'] = df['scholar_url'].apply(lambda x: f'<a href="{x}">{x}</a>')
             return df.to_html(classes='table table-striped', escape=False, index=False, border=0)
         else:
             return f"<p>File does not exist: {filepath}</p>"
     except Exception as e:
         return f"<p>Error loading file: {str(e)}</p>"
+
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -35,7 +40,7 @@ def index():
                     check=True
                 )
                 output = result.stdout
-                flash(output, 'success')
+                flash('YAY , CSVs updated', 'success')
             except subprocess.CalledProcessError as e:
                 flash('Failed to execute the script: ' + str(e), 'error')
             return redirect(url_for('index'))

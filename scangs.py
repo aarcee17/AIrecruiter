@@ -4,7 +4,7 @@ from googlescholar import fetch_scholar_data
 import urllib3
 import time
 from googlescholar import *
-from filter import extract_degree_type
+from scanauth import extract_degree_type
 import csv
 from linkedin import fetch_linkedin_url
 from llm import gs_queries

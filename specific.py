@@ -2,7 +2,7 @@ import requests
 from googlesearch import search
 from scangit import fetch_topkgithub
 from scangs import topk_googlescholar
-from filter import *
+from scanauth import *
 from prof import *
 import sys
 from llm import names_list,specific_locations

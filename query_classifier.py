@@ -2,7 +2,7 @@ import requests
 from googlesearch import search
 from scangit import *
 from scangs import *
-from filter import *
+from scanauth import *
 from prof import *
 import sys
 from combiner import *

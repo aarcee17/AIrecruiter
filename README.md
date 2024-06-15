@@ -15,7 +15,7 @@ graph TD
 subgraph Query Classifier
     A1[query_classifier.py] --> B1[scangit.py]
     A1 --> C1[scangs.py]
-    A1 --> D1[filter.py]
+    A1 --> D1[scanauth.py]
 end
 
 subgraph GitHub Scorer
@@ -51,10 +51,6 @@ Defines the `Candidate` class and methods to calculate scores based on GitHub ac
 
 Fetches GitHub repositories, calculates repository scores, and aggregates them to provide an overall GitHub score for a user.
 
-### `university.py`
-
-Contains a dictionary of predefined university scores and methods to calculate university scores for candidates.
-
 ### `prof.py`
 
 Stores professor data, including names, universities, and homepage URLs.
@@ -71,13 +67,9 @@ Fetches data from Google Scholar, calculates relevance scores, and provides cita
 
 Scrapes co-authors from Google Scholar citations and returns a list of potential students and collaborators.
 
-### `filter.py`
+### `scanauth.py`
 
 Filters out professors from the list of authors and classifies remaining individuals based on their roles and degree types.
-
-### `student_scrape.py`
-
-Fetches detailed information for students, including their GitHub and Google Scholar profiles, and creates `Candidate` objects.
 
 ### `requirements.txt`
 

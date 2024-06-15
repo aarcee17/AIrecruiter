@@ -8,3 +8,5 @@ numpy
 rank-bm25
 gunicorn
 pandas
+validators
+openai

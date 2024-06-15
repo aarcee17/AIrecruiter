@@ -57,7 +57,7 @@ def write_authors_to_csv(authors, filename):
     with open(filename, 'a', newline='') as csvfile:
         csv_writer = csv.writer(csvfile, delimiter=',')
         if os.path.getsize(filename) == 0:
-            csv_writer.writerow(['name', 'scholar_url', 'Linkedin', 'professor', 'university', 'degree_type', 'field_of_study'])
+            csv_writer.writerow(['Name', 'scholar_url', 'Linkedin', 'professor/Lab-head', 'university', 'Degree/Institution', 'Field'])
         for author in authors:
             csv_writer.writerow(author)
 
